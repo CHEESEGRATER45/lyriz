@@ -1,0 +1,5 @@
+player: mpris
+pipe:
+  command: "figlet -f small"
+mpris:
+  players: [spotify]
