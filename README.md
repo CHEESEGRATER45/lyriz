@@ -4,7 +4,11 @@ Live lyrics in a terminal, rendered as big ASCII text, colored to your
 current wallpaper accent. Japanese and Bangla lines get auto-romanized to
 English pronunciation.
 
-<!-- keep your existing screenshot line here -->
+<img width="1920" height="1078" alt="image" src="https://github.com/user-attachments/assets/e4bb508d-3a56-4960-a9f3-3e61906b6852" />
+
+<img width="1920" height="1078" alt="image" src="https://github.com/user-attachments/assets/9c9a3702-6a46-4f01-bddb-932b6bb5b17f" />
+
+
 
 ## How it works
 
