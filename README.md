@@ -1,153 +1,73 @@
-# Lyriz
+# lyriz
 
-Lyriz is a terminal-based lyrics display for Linux. It follows music playing through MPRIS-compatible players, prioritizes local `.lrc` lyric files, and renders lyrics as large ASCII text using your current Matugen accent color.
+Live synced lyrics in your terminal, rendered as big ASCII text and colored to your current wallpaper accent. Japanese and Bangla lines are auto-romanized so you can sing along.
 
-It supports Japanese and Bangla romanization, making lyrics easier to read without requiring knowledge of their original scripts.
-
-<img width="1920" height="1078" alt="image" src="https://github.com/user-attachments/assets/002e471d-c850-435f-a302-be947aac7555" /
+ss
 
 ## Features
 
-- Prioritizes local `.lrc` lyric files.
-- Supports MPRIS-compatible music players.
-- Romanizes Japanese lyrics using `pykakasi`.
-- Supports Bangla romanization through the included helper script.
-- Uses the primary color from your generated Matugen color configuration.
-- Displays lyrics using `figlet`.
-- Supports local music playback alongside compatible streaming players.
+- Big figlet-style lyrics, one line at a time, synced via [sptlrx](https://github.com/raitonoberu/sptlrx)
+- Accent color follows your matugen palette
+- Japanese romanization via kakasi, Bangla via `bangla_romanize.py`
+- Works with Spotify through MPRIS
 
 ## Requirements
 
-- Linux
-- Python 3
-- `figlet`
-- `jq`
-- `pykakasi`
-- An MPRIS-compatible music player
-- Matugen-generated colors for dynamic terminal colors
+- Arch Linux (other distros should work, but untested)
+- [illogical-impulse / dots-hyprland](https://github.com/end-4/dots-hyprland) or anything else that writes matugen colors to `~/.local/state/quickshell/user/generated/colors.json`
+- `sptlrx-bin`, `figlet`, `kakasi`, `jq`
+- Python package `indic-transliteration`
+- Spotify open and playing
 
-## Installation
-
-### 1. Install dependencies
-
-On Arch Linux:
+## Install
 
 ```bash
-sudo pacman -S python figlet jq
-yay -S python-pykakasi
-```
+yay -S sptlrx-bin figlet kakasi jq
+pip install indic-transliteration --break-system-packages
 
-### 2. Clone the repository
-
-```bash
-git clone https://github.com/CHEESEGRATER45/lyriz.git
+git clone https://github.com/CHEESEGRATER45/lyriz
 cd lyriz
+mkdir -p ~/.local/bin ~/.config/sptlrx
+cp lyriz-launch bangla_romanize.py ~/.local/bin/
+chmod +x ~/.local/bin/lyriz-launch ~/.local/bin/bangla_romanize.py
 ```
 
-### 3. Install the scripts
+Already have an sptlrx config? Back it up first, since this overwrites it:
 
 ```bash
-mkdir -p ~/.local/bin
-cp lyriz-launch lyriz-local-first.py lyriz-romanize.py bangla_romanize.py ~/.local/bin/
-chmod +x ~/.local/bin/lyriz-launch
+cp ~/.config/sptlrx/config.yaml ~/.config/sptlrx/config.yaml.bak
+cp config.yaml.example ~/.config/sptlrx/config.yaml
 ```
 
-Keep all four files in `~/.local/bin/`, as the launcher calls the helper scripts from that directory.
+Make sure `~/.local/bin` is in your `PATH`.
 
-### 4. Run Lyriz
+## Usage
 
-Start playback in a supported music player, then run:
+Run it directly:
 
 ```bash
-~/.local/bin/lyriz-launch
+lyriz-launch
 ```
 
-To launch it in a separate Kitty terminal:
+Or bind it to a key. Hyprland example:
 
-```bash
-kitty -e ~/.local/bin/lyriz-launch
+```
+bind = SUPER, L, exec, kitty -e ~/.local/bin/lyriz-launch
 ```
 
-## Local Lyrics
+## How it works
 
-Lyriz prioritizes local `.lrc` files when matching lyrics to the currently playing track.
+`sptlrx pipe` can't be piped straight into figlet because the output garbles. lyriz instead loops over each line and clears the screen between them.
 
-For better matching, name lyric files using the track title and artist.
+## Roadmap
 
-Example:
+- [ ] Local mp3 + `.lrc` playback (e.g. files from spodsync)
+- [ ] Fallback accent color when no matugen colors are found
 
-```text
-AIZO - King Gnu.lrc
-```
+## Credits
 
-Standard LRC files contain timestamps followed by lyric lines:
-
-```text
-[00:12.30]First lyric line
-[00:15.80]Second lyric line
-[00:19.20]Third lyric line
-```
-
-The local lyrics helper handles matching files to the current track. Online fallback behavior depends on the implementation and configuration of the helper.
-
-## Romanization
-
-Lyriz can romanize supported lyrics before displaying them.
-
-- **Japanese:** Uses `pykakasi` to convert Japanese text into Latin-script pronunciation.
-- **Bangla:** Uses the included `bangla_romanize.py` helper.
-- **Other text:** Passes through text that does not match the supported scripts.
-
-Romanization represents pronunciation rather than translation.
-
-## Matugen Integration
-
-Lyriz reads the primary accent color from:
-
-```text
-~/.local/state/quickshell/user/generated/colors.json
-```
-
-The launcher uses this color to style the terminal output. If the file is missing or the color cannot be parsed, the text defaults to white.
-
-## Troubleshooting
-
-### Lyrics are not appearing
-
-- Make sure a supported music player is running and playing a track.
-- Verify that the player exposes its metadata through MPRIS.
-- Check that a matching `.lrc` file exists if you expect local lyrics.
-- Check the lyric source and fallback behavior configured in your installation.
-
-### Japanese romanization is not working
-
-- Verify that `pykakasi` is installed in the Python environment used by Lyriz.
-- Ensure `lyriz-romanize.py` exists in `~/.local/bin/`.
-
-### Bangla romanization is not working
-
-- Ensure `bangla_romanize.py` exists in `~/.local/bin/`.
-- Test the helper independently to identify any missing dependencies or errors.
-
-### Matugen colors are not appearing
-
-- Verify that `colors.json` exists at the expected path.
-- Ensure the file contains a valid `primary` hexadecimal color.
-
-## Project Structure
-
-```text
-lyriz/
-├── README.md
-├── bangla_romanize.py
-├── config.yaml.example
-├── lyriz-launch
-├── lyriz-local-first.py
-└── lyriz-romanize.py
-```
+[sptlrx](https://github.com/raitonoberu/sptlrx), [kakasi](https://github.com/miurahr/pykakasi), [indic-transliteration](https://github.com/indic-transliteration/indic_transliteration_py), figlet.
 
 ## License
 
-See the repository for license information.
-
-
+MIT, see [LICENSE](LICENSE).
