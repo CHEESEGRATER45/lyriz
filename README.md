@@ -6,7 +6,7 @@ English pronunciation.
 
 <img width="1918" height="1078" alt="image" src="https://github.com/user-attachments/assets/3a520ac8-8a50-49fc-a3cc-e76922b98583" />
 
-<img width="1920" height="1078" alt="image" src="https://github.com/user-attachments/assets/9c9a3702-6a46-4f01-bddb-932b6bb5b17f" />
+<img width="1918" height="1078" alt="image" src="https://github.com/user-attachments/assets/608f42fc-c577-4913-9e7c-ffa3f8fed4b2" />
 
 <img width="1918" height="1078" alt="image" src="https://github.com/user-attachments/assets/7df36273-5fab-4f7a-a60c-ffec295b9926" />
 
