@@ -8,7 +8,7 @@ English pronunciation.
 
 <img width="1920" height="1078" alt="image" src="https://github.com/user-attachments/assets/9c9a3702-6a46-4f01-bddb-932b6bb5b17f" />
 
-<img width="1915" height="1077" alt="image" src="https://github.com/user-attachments/assets/096b9924-3bcc-4bfc-9ea3-d5d347aa03c8" />
+<img width="1918" height="1078" alt="image" src="https://github.com/user-attachments/assets/7df36273-5fab-4f7a-a60c-ffec295b9926" />
 
 ## How it works
 
