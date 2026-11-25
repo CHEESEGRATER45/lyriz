@@ -7,10 +7,28 @@ get_color() {
     r=$((16#${hex:0:2})); g=$((16#${hex:2:2})); b=$((16#${hex:4:2}))
   fi
 }
+NOTES=(
+' |\___|\
+ | |  | |
+ | |  | |
+(_|/ (_|/'
+'  _
+ | \
+ | |
+(_|/'
+)
 python3 -u "$HOME/.local/bin/lyriz-local-first.py" | python3 -u "$HOME/.local/bin/lyriz-romanize.py" | while IFS= read -r line; do
   get_color
   clear
   printf "\033[38;2;%s;%s;%sm" "$r" "$g" "$b"
-  figlet -f small -w "$(tput cols)" "$line"
+  trimmed="${line//[[:space:]]/}"
+  case "$trimmed" in
+    "♪"|"♫"|"♪♪"|"♪♪♪")
+      printf '%s\n' "${NOTES[RANDOM % 2]}"
+      ;;
+    *)
+      figlet -f small -w "$(tput cols)" "$line"
+      ;;
+  esac
   printf "\033[0m"
 done
